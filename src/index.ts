@@ -1,12 +1,19 @@
 import "dotenv/config";
 import { Address } from "viem";
-import { CreateIpAssetWithPilTermsResponse, CreateNFTCollectionResponse } from "@story-protocol/core-sdk";
+import {
+  CreateIpAssetWithPilTermsResponse,
+  CreateNFTCollectionResponse,
+  PIL_TYPE,
+  StoryClient,
+} from "@story-protocol/core-sdk";
 import { hashMetadata, getDummyIpMetadata, getDummyNftMetadata } from "./utils/metadataUtils.js";
 import { upload } from "./utils/uploadToIpfs.js";
-import { getDummyAccount } from "./account.js";
-import { getStoryClient, createNftCollection, mintAndRegisterIpAsset } from "./story.js";
+import { getDummyAccount, ACCOUNT_TYPE } from "./utils/account.js";
+import { getStoryClient, createNftCollection, mintAndRegister, registerWithLicense } from "./story/ipAsset.js";
+import { AZUKI_CONTRACT_ADDRESS } from "./utils/nftUtils.js";
+import { SUSD_ADDRESS } from "./story/license.js";
 
-const account = getDummyAccount();
+const account = getDummyAccount(ACCOUNT_TYPE.SEAFOOD);
 
 const client = getStoryClient(account);
 
@@ -34,7 +41,7 @@ const getMetadata = async (): Promise<{
  * Sets up the NFT collection.
  * @returns The response from creating the NFT collection.
  */
-const setUpNftCollection = async (): Promise<CreateNFTCollectionResponse> => {
+const setUpNftCollection = async (client: StoryClient): Promise<CreateNFTCollectionResponse> => {
   const result = await createNftCollection(client, "Meme", "MEME");
   return result;
 };
@@ -43,10 +50,10 @@ const setUpNftCollection = async (): Promise<CreateNFTCollectionResponse> => {
  * Mints an NFT and registers an IP asset.
  * @returns The response from minting and registering the IP asset.
  */
-const mintNftAndRegister = async (): Promise<CreateIpAssetWithPilTermsResponse> => {
+const mintNftAndRegister = async (client: StoryClient): Promise<CreateIpAssetWithPilTermsResponse> => {
   const { ipIpfsHash, ipHash, nftIpfsHash, nftHash } = await getMetadata();
-  const nftCollection = await setUpNftCollection();
-  const response = await mintAndRegisterIpAsset(
+  const nftCollection = await setUpNftCollection(client);
+  const response = await mintAndRegister(
     client,
     nftCollection.nftContract as Address,
     ipIpfsHash,

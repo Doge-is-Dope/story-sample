@@ -6,6 +6,7 @@ import {
   CreateIpAssetWithPilTermsRequest,
   CreateIpAssetWithPilTermsResponse,
   CreateNFTCollectionResponse,
+  RegisterIpResponse,
 } from "@story-protocol/core-sdk";
 
 /**
@@ -55,7 +56,7 @@ const createNftCollection = async (
  * @param {string} nftHash - The hash of the NFT metadata.
  * @returns {Promise<CreateIpAssetWithPilTermsResponse>} A promise that resolves to the response of creating the IP asset.
  */
-const mintAndRegisterIpAsset = async (
+const mintAndRegister = async (
   client: StoryClient,
   nftContractAddress: Address,
   ipIpfsHash: string,
@@ -77,4 +78,45 @@ const mintAndRegisterIpAsset = async (
   return response;
 };
 
-export { getStoryClient, createNftCollection, mintAndRegisterIpAsset };
+/**
+ * Registers an IP asset with the provided token ID.
+ * This is used when the NFT is already minted and we want to register it as an IP asset.
+ *
+ * @param {StoryClient} client - The StoryClient instance to use for registering the IP asset.
+ * @param {Address} nftContractAddress - The address of the NFT contract.
+ * @param {number} tokenId - The token ID of the NFT.
+ * @returns {Promise<RegisterIpResponse>} The response containing the transaction hash and the IP asset ID.
+ */
+const register = async (
+  client: StoryClient,
+  nftContractAddress: Address,
+  tokenId: number
+): Promise<RegisterIpResponse> => {
+  const response = await client.ipAsset.register({
+    nftContract: nftContractAddress as Address,
+    tokenId: tokenId,
+    txOptions: { waitForTransaction: true },
+  });
+  return response;
+};
+
+const registerWithLicense = async (
+  client: StoryClient,
+  nftContractAddress: Address,
+  tokenId: number,
+  pilType: PIL_TYPE,
+  mintingFee: string,
+  currency: Address
+): Promise<RegisterIpResponse> => {
+  const response = await client.ipAsset.registerIpAndAttachPilTerms({
+    nftContract: nftContractAddress as Address,
+    tokenId: tokenId,
+    pilType: pilType,
+    mintingFee: mintingFee,
+    currency: currency,
+    txOptions: { waitForTransaction: true },
+  });
+  return response;
+};
+
+export { getStoryClient, createNftCollection, mintAndRegister, register, registerWithLicense };
