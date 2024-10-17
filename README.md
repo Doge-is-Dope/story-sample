@@ -10,3 +10,9 @@ PINATA_JWT=
 PINATA_GATEWAY=
 RPC_PROVIDER_URL=
 ```
+
+### Helper Functions
+
+- `createDummyNftCollection`: Create dummy NFT collection.
+- `getMetadata`: Get the dummy metadata for the NFT collection and IP asset.
+- `mintNftAndRegister`: Mint an NFT and register an IP asset with PIL terms.

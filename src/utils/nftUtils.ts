@@ -1,6 +1,6 @@
 import { Account, Address, createPublicClient, createWalletClient, defineChain, http } from "viem";
 import { ACCOUNT_TYPE, getDummyAccount } from "./account.js";
-
+import { AZUKI_CONTRACT_ADDRESS } from "./constants.js";
 // Use Clement Dev account to create NFT
 const account: Account = getDummyAccount(ACCOUNT_TYPE.CLEMENT);
 
@@ -89,8 +89,6 @@ const abi = [
   },
 ];
 
-const AZUKI_CONTRACT_ADDRESS = "0x5D0ACd1667995111795161eF029e1202f52D1EA2";
-
 const mintNFT = async (amount: number): Promise<string> => {
   const { request } = await publicClient.simulateContract({
     address: AZUKI_CONTRACT_ADDRESS as Address,
@@ -126,4 +124,4 @@ const transferNFT = async (to: Address, tokenId: number): Promise<string> => {
   return hash;
 };
 
-export { AZUKI_CONTRACT_ADDRESS, mintNFT, getTokenUri, transferNFT };
+export { mintNFT, getTokenUri, transferNFT };

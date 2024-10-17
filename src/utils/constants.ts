@@ -1,7 +1,10 @@
 // The default PIL template
 const STORY_LICENSE_TEMPLATE = "0x8BB1ADE72E21090Fc891e1d4b88AC5E57b27cB31";
 
-// The only acceptable minting fee token registered in Story Protocol
+// The minting fee token registered in Story Protocol
 const SUSD_ADDRESS = "0x91f6F05B08c16769d3c85867548615d270C42fC7";
 
-export { STORY_LICENSE_TEMPLATE, SUSD_ADDRESS };
+// Dummy NFT contract address
+const AZUKI_CONTRACT_ADDRESS = "0x5D0ACd1667995111795161eF029e1202f52D1EA2";
+
+export { STORY_LICENSE_TEMPLATE, SUSD_ADDRESS, AZUKI_CONTRACT_ADDRESS };
