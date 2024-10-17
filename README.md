@@ -11,7 +11,7 @@ PINATA_GATEWAY=
 RPC_PROVIDER_URL=
 ```
 
-### Helper Functions
+### Recipes
 
 - `createDummyNftCollection`: Create dummy NFT collection.
 - `getMetadata`: Get the dummy metadata for the NFT collection and IP asset.
