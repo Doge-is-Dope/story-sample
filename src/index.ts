@@ -9,11 +9,16 @@ import {
 import { hashMetadata, getDummyIpMetadata, getDummyNftMetadata } from "./utils/metadataUtils.js";
 import { upload } from "./utils/uploadToIpfs.js";
 import { getDummyAccount, ACCOUNT_TYPE } from "./utils/account.js";
-import { getStoryClient, createNftCollection, mintAndRegister, registerWithLicense } from "./story/ipAsset.js";
+import { createNftCollection, mintAndRegisterIp, registerIp, registerIpWithLicense } from "./story/ipAsset.js";
+import { getStoryClient } from "./story/client.js";
 import { AZUKI_CONTRACT_ADDRESS } from "./utils/nftUtils.js";
-import { SUSD_ADDRESS } from "./story/license.js";
+import { attachLicense } from "./story/license.js";
+import { SUSD_ADDRESS } from "./utils/constants.js";
 
 const account = getDummyAccount(ACCOUNT_TYPE.SEAFOOD);
+
+const owner = account.address === "0x9fD042a18E90Ce326073fA70F111DC9D798D9a52" ? "Clement" : "Seafood";
+console.log(`=========== Account: ${owner} ============`);
 
 const client = getStoryClient(account);
 
@@ -38,10 +43,10 @@ const getMetadata = async (): Promise<{
 };
 
 /**
- * Sets up the NFT collection.
+ * Create dummy NFT collection.
  * @returns The response from creating the NFT collection.
  */
-const setUpNftCollection = async (client: StoryClient): Promise<CreateNFTCollectionResponse> => {
+const createDummyNftCollection = async (client: StoryClient): Promise<CreateNFTCollectionResponse> => {
   const result = await createNftCollection(client, "Meme", "MEME");
   return result;
 };
@@ -52,8 +57,8 @@ const setUpNftCollection = async (client: StoryClient): Promise<CreateNFTCollect
  */
 const mintNftAndRegister = async (client: StoryClient): Promise<CreateIpAssetWithPilTermsResponse> => {
   const { ipIpfsHash, ipHash, nftIpfsHash, nftHash } = await getMetadata();
-  const nftCollection = await setUpNftCollection(client);
-  const response = await mintAndRegister(
+  const nftCollection = await createDummyNftCollection(client);
+  const response = await mintAndRegisterIp(
     client,
     nftCollection.nftContract as Address,
     ipIpfsHash,

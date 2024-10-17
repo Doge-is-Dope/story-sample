@@ -1,7 +1,8 @@
 import { Account, Address, createPublicClient, createWalletClient, defineChain, http } from "viem";
 import { ACCOUNT_TYPE, getDummyAccount } from "./account.js";
 
-const account: Account = getDummyAccount(ACCOUNT_TYPE.DUMMY);
+// Use Clement Dev account to create NFT
+const account: Account = getDummyAccount(ACCOUNT_TYPE.CLEMENT);
 
 const storyTestnet = defineChain({
   id: 1513,

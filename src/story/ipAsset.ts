@@ -1,28 +1,11 @@
-import { http, Account, Address } from "viem";
+import { Address } from "viem";
 import {
   StoryClient,
-  StoryConfig,
   PIL_TYPE,
-  CreateIpAssetWithPilTermsRequest,
   CreateIpAssetWithPilTermsResponse,
   CreateNFTCollectionResponse,
   RegisterIpResponse,
 } from "@story-protocol/core-sdk";
-
-/**
- * Creates and returns a new StoryClient instance.
- *
- * @param {Account} account - The account to be used for the StoryClient.
- * @returns {StoryClient} A new StoryClient instance configured with the provided account and environment settings.
- */
-const getStoryClient = (account: Account) => {
-  const config: StoryConfig = {
-    account: account,
-    transport: http(process.env.RPC_PROVIDER_URL),
-    chainId: "iliad",
-  };
-  return StoryClient.newClient(config);
-};
 
 /**
  * Creates a new SPG NFT collection using the provided StoryClient.
@@ -56,7 +39,7 @@ const createNftCollection = async (
  * @param {string} nftHash - The hash of the NFT metadata.
  * @returns {Promise<CreateIpAssetWithPilTermsResponse>} A promise that resolves to the response of creating the IP asset.
  */
-const mintAndRegister = async (
+const mintAndRegisterIp = async (
   client: StoryClient,
   nftContractAddress: Address,
   ipIpfsHash: string,
@@ -87,7 +70,7 @@ const mintAndRegister = async (
  * @param {number} tokenId - The token ID of the NFT.
  * @returns {Promise<RegisterIpResponse>} The response containing the transaction hash and the IP asset ID.
  */
-const register = async (
+const registerIp = async (
   client: StoryClient,
   nftContractAddress: Address,
   tokenId: number
@@ -100,7 +83,30 @@ const register = async (
   return response;
 };
 
-const registerWithLicense = async (
+/**
+ * Registers an IP asset with the provided token ID and attaches PIL (Programmable Intellectual License) terms.
+ * This function is used when an NFT is already minted and we want to register it as an IP asset with specific license terms.
+ *
+ * @param {StoryClient} client - The StoryClient instance to use for registering the IP asset.
+ * @param {Address} nftContractAddress - The address of the NFT contract.
+ * @param {number} tokenId - The token ID of the NFT.
+ * @param {PIL_TYPE} pilType - The type of Programmable Intellectual License to attach.
+ * @param {string} mintingFee - The fee for minting, as a string representation of the amount.
+ * @param {Address} currency - The address of the currency contract to use for the minting fee.
+ * @returns {Promise<RegisterIpResponse>} A promise that resolves to the response containing the transaction hash and the IP asset ID.
+ * @example
+ * ```typescript
+ * const response = await registerIpWithLicense(
+ *   client,
+ *   AZUKI_CONTRACT_ADDRESS,
+ *   5,
+ *   PIL_TYPE.COMMERCIAL_USE,
+ *   "100",
+ *   SUSD_ADDRESS
+ * );
+ * ```
+ */
+const registerIpWithLicense = async (
   client: StoryClient,
   nftContractAddress: Address,
   tokenId: number,
@@ -119,4 +125,4 @@ const registerWithLicense = async (
   return response;
 };
 
-export { getStoryClient, createNftCollection, mintAndRegister, register, registerWithLicense };
+export { createNftCollection, mintAndRegisterIp, registerIp, registerIpWithLicense };
