@@ -8,6 +8,7 @@
     "start": "node dist/index.js",
     "dev": "yarn build && yarn start",
     "setup": "npx ts-node ./src/index.ts",
+    "mint-approve-susd": "npx ts-node ./src/recipes/mintAndApproveSUSD.ts",
     "register-deriv-com": "npx ts-node ./src/recipes/registerDerivativeCommercial.ts",
     "register-deriv-noncom": "npx ts-node ./src/recipes/registerDerivativeNonCommercial.ts",
     "register-deriv-noncom-simple": "npx ts-node ./src/recipes/registerDerivativeNonCommercialSimple.ts"
