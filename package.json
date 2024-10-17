@@ -1,13 +1,16 @@
 {
   "name": "story-sample",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "index.js",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "yarn build && yarn start"
+    "dev": "yarn build && yarn start",
+    "setup": "npx ts-node ./src/index.ts",
+    "register-deriv-com": "npx ts-node ./src/recipes/registerDerivativeCommercial.ts",
+    "register-deriv-noncom": "npx ts-node ./src/recipes/registerDerivativeNonCommercial.ts",
+    "register-deriv-noncom-simple": "npx ts-node ./src/recipes/registerDerivativeNonCommercialSimple.ts"
   },
   "dependencies": {
     "@story-protocol/core-sdk": "^1.1.0-stable",

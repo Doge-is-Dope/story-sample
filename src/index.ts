@@ -1,9 +1,36 @@
 import "dotenv/config";
-import { getDummyAccount, ACCOUNT_TYPE } from "./utils/account.js";
-import { getStoryClient } from "./story/client.js";
+import { Address } from "viem";
+import { getDummyAccount, ACCOUNT_TYPE } from "./utils/account";
+import { getStoryClient } from "./story/client";
+import { createDummyNftCollection } from "./utils/nftSPGUtils";
+import { mintNFT } from "./utils/nftErc721Utils";
+import { getMetadata } from "./utils/metadataUtils";
 
-const account = getDummyAccount(ACCOUNT_TYPE.SEAFOOD);
-const owner = account.address === "0x9fD042a18E90Ce326073fA70F111DC9D798D9a52" ? "Clement" : "Seafood";
-console.log(`=========== Account: ${owner} ============`);
+const main = async () => {
+  const account = getDummyAccount(ACCOUNT_TYPE.WALLET);
+  console.log(`Account: ${account.address}`);
 
-const client = getStoryClient(account);
+  // Create Story Protocol client
+  const client = getStoryClient(account);
+
+  // Create a dummy NFT collection
+  const response = await createDummyNftCollection(client, "Dummy NFT Collection", "DUMMY");
+  console.log(`SPG Collection created`);
+  console.log(`- Transaction Hash: ${response.txHash}`);
+  console.log(`- Contract: ${response.nftContract}`);
+};
+
+// Mint a Test ERC-721 NFT (Story NFT)
+const mintTestNFT = async (to: Address, uri: string) => {
+  const id = await mintNFT(to, uri);
+  console.log(`NFT minted`);
+  console.log(`- NFT ID: ${id}`);
+};
+
+const testMetadata = async () => {
+  const { ipIpfsHash, ipHash, nftIpfsHash, nftHash } = await getMetadata();
+  console.log(`IP Metadata: ${ipIpfsHash}, ${ipHash}`);
+  console.log(`NFT Metadata: ${nftIpfsHash}, ${nftHash}`);
+};
+
+testMetadata();

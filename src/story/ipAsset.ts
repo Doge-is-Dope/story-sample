@@ -5,28 +5,9 @@ import {
   CreateIpAssetWithPilTermsResponse,
   CreateNFTCollectionResponse,
   RegisterIpResponse,
+  IpMetadata,
 } from "@story-protocol/core-sdk";
-
-/**
- * Creates a new SPG NFT collection using the provided StoryClient.
- *
- * @param {StoryClient} client - The StoryClient instance to use for creating the collection.
- * @param {string} name - The name of the NFT collection.
- * @param {string} symbol - The symbol for the NFT collection.
- * @returns {Promise<CreateNFTCollectionResponse>} A promise that resolves to the response of creating the NFT collection.
- */
-const createNftCollection = async (
-  client: StoryClient,
-  name: string,
-  symbol: string
-): Promise<CreateNFTCollectionResponse> => {
-  const newCollection = await client.nftClient.createNFTCollection({
-    name: name,
-    symbol: symbol,
-    txOptions: { waitForTransaction: true },
-  });
-  return newCollection;
-};
+import { getMetadata } from "../utils/metadataUtils";
 
 /**
  * Mints and registers an IP asset with the provided metadata.
@@ -73,11 +54,13 @@ const mintAndRegisterIp = async (
 const registerIp = async (
   client: StoryClient,
   nftContractAddress: Address,
-  tokenId: number
+  tokenId: number,
+  ipMetadata?: Record<string, string>
 ): Promise<RegisterIpResponse> => {
   const response = await client.ipAsset.register({
     nftContract: nftContractAddress as Address,
     tokenId: tokenId,
+    ipMetadata: ipMetadata,
     txOptions: { waitForTransaction: true },
   });
   return response;
@@ -125,4 +108,4 @@ const registerIpWithLicense = async (
   return response;
 };
 
-export { createNftCollection, mintAndRegisterIp, registerIp, registerIpWithLicense };
+export { mintAndRegisterIp, registerIp, registerIpWithLicense };

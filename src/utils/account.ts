@@ -1,7 +1,7 @@
 import { privateKeyToAccount, Address, Account } from "viem/accounts";
 
-enum ACCOUNT_TYPE {
-  CLEMENT = "clement",
+export enum ACCOUNT_TYPE {
+  WALLET = "wallet",
   SEAFOOD = "seafood",
 }
 
@@ -10,11 +10,11 @@ enum ACCOUNT_TYPE {
  *
  * @returns {Account} An Account object created from the private key.
  */
-const getDummyAccount = (type: ACCOUNT_TYPE): Account => {
+export const getDummyAccount = (type: ACCOUNT_TYPE): Account => {
   let privateKey: Address;
   switch (type) {
-    case ACCOUNT_TYPE.CLEMENT:
-      privateKey = `0x${process.env.CLEMENT_PRIVATE_KEY}`;
+    case ACCOUNT_TYPE.WALLET:
+      privateKey = `0x${process.env.WALLET_PRIVATE_KEY}`;
       break;
     case ACCOUNT_TYPE.SEAFOOD:
       privateKey = `0x${process.env.SEAFOOD_PRIVATE_KEY}`;
@@ -22,5 +22,3 @@ const getDummyAccount = (type: ACCOUNT_TYPE): Account => {
   }
   return privateKeyToAccount(privateKey);
 };
-
-export { ACCOUNT_TYPE, getDummyAccount };

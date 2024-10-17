@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { StoryClient, AttachLicenseTermsResponse } from "@story-protocol/core-sdk";
+import { StoryClient, AttachLicenseTermsResponse, MintLicenseTokensResponse } from "@story-protocol/core-sdk";
 
 /**
  * Attaches a license to an IP asset.
@@ -34,4 +34,40 @@ const attachLicense = async (
   return response;
 };
 
-export { attachLicense };
+/**
+ * Mints license tokens for a specific IP asset.
+ *
+ * @param client - The StoryClient instance used to interact with the Story Protocol.
+ * @param licensorIpId - The address of the IP asset for which the license tokens are being minted.
+ * @param receiver - The address that will receive the minted license tokens.
+ * @param amount - The number of license tokens to mint.
+ * @param licenseTermsId - Optional. The ID of the license terms. Defaults to "1" (non-commercial) if not provided.
+ * @returns A Promise that resolves to a MintLicenseTokensResponse object containing the transaction details.
+ *
+ * @example
+ * ```typescript
+ * const client = getStoryClient(account);
+ * const licensorIpId = "0xeB731efe815d974df7E67fB95E6940589ec199b9";
+ * const receiver = account.address;
+ * const amount = 1;
+ * const response = await mintLicenseTokens(client, licensorIpId, receiver, amount);
+ * ```
+ */
+const mintLicenseTokens = async (
+  client: StoryClient,
+  licensorIpId: Address,
+  licenseTermsId?: number,
+  amount?: number,
+  receiver?: Address
+): Promise<MintLicenseTokensResponse> => {
+  const response = await client.license.mintLicenseTokens({
+    licensorIpId: licensorIpId,
+    licenseTermsId: licenseTermsId ?? "1",
+    receiver: receiver,
+    amount: amount,
+    txOptions: { waitForTransaction: true },
+  });
+  return response;
+};
+
+export { attachLicense, mintLicenseTokens };
