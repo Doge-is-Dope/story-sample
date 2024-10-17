@@ -6,6 +6,7 @@ import {
   CreateNFTCollectionResponse,
   RegisterIpResponse,
   IpMetadata,
+  RegisterIpAndMakeDerivativeResponse,
 } from "@story-protocol/core-sdk";
 import { getMetadata } from "../utils/metadataUtils";
 
@@ -108,4 +109,25 @@ const registerIpWithLicense = async (
   return response;
 };
 
-export { mintAndRegisterIp, registerIp, registerIpWithLicense };
+const registerDerivativeIp = async (
+  client: StoryClient,
+  nftContractAddress: Address,
+  tokenId: number,
+  parentIpId: Address,
+  licenseTermsId: number,
+  ipMetadata?: Record<string, string>
+): Promise<RegisterIpAndMakeDerivativeResponse> => {
+  const response = await client.ipAsset.registerDerivativeIp({
+    nftContract: nftContractAddress as Address,
+    tokenId: tokenId,
+    derivData: {
+      parentIpIds: [parentIpId as Address],
+      licenseTermsIds: [licenseTermsId],
+    },
+    ipMetadata: ipMetadata,
+    txOptions: { waitForTransaction: true },
+  });
+  return response;
+};
+
+export { mintAndRegisterIp, registerIp, registerIpWithLicense, registerDerivativeIp };
