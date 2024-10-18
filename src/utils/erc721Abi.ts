@@ -1,4 +1,4 @@
-export const nftContractAbi = [
+export const erc721Abi = [
   {
     inputs: [],
     stateMutability: "nonpayable",

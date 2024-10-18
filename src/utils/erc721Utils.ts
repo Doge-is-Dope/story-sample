@@ -1,6 +1,6 @@
 import { Address, createWalletClient, http } from "viem";
 import { ACCOUNT_TYPE, getDummyAccount } from "./account";
-import { nftContractAbi } from "./nftContractAbi";
+import { erc721Abi } from "./erc721Abi";
 import { publicClient, storyTestnet } from "./utils";
 import { ERC721_CONTRACT_ADDRESS } from "./constants";
 
@@ -13,7 +13,7 @@ const walletClient = createWalletClient({
 export async function mintNFT(to: Address, uri: string): Promise<number | undefined> {
   const { request } = await publicClient.simulateContract({
     address: ERC721_CONTRACT_ADDRESS as Address,
-    abi: nftContractAbi,
+    abi: erc721Abi,
     functionName: "mintNFT",
     args: [to, uri],
   });

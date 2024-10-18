@@ -1,9 +1,12 @@
-import { Address, createPublicClient, createWalletClient, defineChain, http } from "viem";
-import { CreateIpAssetWithPilTermsResponse, CreateNFTCollectionResponse, StoryClient } from "@story-protocol/core-sdk";
+import { Address } from "viem";
+import {
+  CreateIpAssetWithPilTermsResponse,
+  CreateNFTCollectionResponse,
+  PIL_TYPE,
+  StoryClient,
+} from "@story-protocol/core-sdk";
 import { getMetadata } from "./metadataUtils";
 import { mintAndRegisterIp } from "../story/ipAsset";
-import { ACCOUNT_TYPE, getDummyAccount } from "./account";
-import { nftContractAbi } from "./nftContractAbi";
 
 /**
  * Create dummy NFT collection.
@@ -28,19 +31,13 @@ const createDummyNftCollection = async (
  */
 const mintNftAndRegister = async (
   client: StoryClient,
-  collectionName: string,
-  collectionSymbol: string
+  nftContractAddress: Address,
+  pilType: PIL_TYPE,
+  mintingFee?: string,
+  currency?: Address
 ): Promise<CreateIpAssetWithPilTermsResponse> => {
-  const { ipIpfsHash, ipHash, nftIpfsHash, nftHash } = await getMetadata();
-  const nftCollection = await createDummyNftCollection(client, collectionName, collectionSymbol);
-  const response = await mintAndRegisterIp(
-    client,
-    nftCollection.nftContract as Address,
-    ipIpfsHash,
-    ipHash,
-    nftIpfsHash,
-    nftHash
-  );
+  const metadata = await getMetadata();
+  const response = await mintAndRegisterIp(client, nftContractAddress, pilType, metadata, mintingFee, currency);
   return response;
 };
 
@@ -54,11 +51,12 @@ const mintNftAndRegister = async (
  */
 const mintNftAndRegisterAndDerivative = async (
   client: StoryClient,
+  nftContractAddress: Address,
   parentIpIds: Address[],
   licenseTermsIds: string[]
 ) => {
   const response = await client.ipAsset.mintAndRegisterIpAndMakeDerivative({
-    nftContract: process.env.DUMMY_NFT_COLLECTION_CONTRACT as Address,
+    nftContract: nftContractAddress,
     derivData: {
       parentIpIds: parentIpIds,
       licenseTermsIds: licenseTermsIds,

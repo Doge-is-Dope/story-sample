@@ -1,7 +1,7 @@
 import { Address, createPublicClient, createWalletClient, defineChain, http } from "viem";
 import { ACCOUNT_TYPE, getDummyAccount } from "./account";
 import { AZUKI_CONTRACT_ADDRESS } from "./constants";
-import { nftContractAbi } from "./nftContractAbi";
+import { erc721Abi } from "./erc721Abi";
 
 const storyTestnet = defineChain({
   id: 1513,
@@ -34,7 +34,7 @@ const publicClient = createPublicClient({
 const mintNFT = async (to: Address, amount: number): Promise<string> => {
   const { request } = await publicClient.simulateContract({
     address: AZUKI_CONTRACT_ADDRESS as Address,
-    abi: nftContractAbi,
+    abi: erc721Abi,
     functionName: "safeMint",
     args: [to, amount],
   });
@@ -47,7 +47,7 @@ const mintNFT = async (to: Address, amount: number): Promise<string> => {
 const getTokenUri = async (tokenId: number): Promise<string> => {
   const uri = await publicClient.readContract({
     address: AZUKI_CONTRACT_ADDRESS as Address,
-    abi: nftContractAbi,
+    abi: erc721Abi,
     functionName: "tokenURI",
     args: [BigInt(tokenId)],
   });
@@ -60,7 +60,7 @@ const getTokenUri = async (tokenId: number): Promise<string> => {
 const transferNFT = async (from: Address, to: Address, tokenId: number): Promise<string> => {
   const { request } = await publicClient.simulateContract({
     address: AZUKI_CONTRACT_ADDRESS as Address,
-    abi: nftContractAbi,
+    abi: erc721Abi,
     functionName: "safeTransferFrom",
     args: [walletClient.account.address, to, tokenId],
   });
@@ -72,7 +72,7 @@ const transferNFT = async (from: Address, to: Address, tokenId: number): Promise
 const getTotalSupply = async (): Promise<number> => {
   const totalSupply = await publicClient.readContract({
     address: AZUKI_CONTRACT_ADDRESS as Address,
-    abi: nftContractAbi,
+    abi: erc721Abi,
     functionName: "totalSupply",
   });
   return totalSupply as number;
