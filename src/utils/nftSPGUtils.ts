@@ -53,7 +53,8 @@ const mintNftAndRegisterAndDerivative = async (
   client: StoryClient,
   nftContractAddress: Address,
   parentIpIds: Address[],
-  licenseTermsIds: string[]
+  licenseTermsIds: string[],
+  ipMetadata?: Record<string, string>
 ) => {
   const response = await client.ipAsset.mintAndRegisterIpAndMakeDerivative({
     nftContract: nftContractAddress,
@@ -61,6 +62,7 @@ const mintNftAndRegisterAndDerivative = async (
       parentIpIds: parentIpIds,
       licenseTermsIds: licenseTermsIds,
     },
+    ipMetadata: ipMetadata,
     txOptions: { waitForTransaction: true },
   });
   return response;

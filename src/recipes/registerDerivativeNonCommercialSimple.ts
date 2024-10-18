@@ -1,8 +1,10 @@
 import { Address } from "viem";
 import { getDummyAccount, ACCOUNT_TYPE } from "../utils/account";
 import { getStoryClient } from "../story/client";
-import { registerIp } from "../story/ipAsset";
-import { AZUKI_CONTRACT_ADDRESS } from "../utils/constants";
+import { registerDerivativeIp, registerIp } from "../story/ipAsset";
+import { AZUKI_CONTRACT_ADDRESS, ERC721_CONTRACT_ADDRESS } from "../utils/constants";
+import { getMetadata } from "../utils/metadataUtils";
+import { mintNFT } from "../utils/erc721Utils";
 import { mintNftAndRegisterAndDerivative } from "../utils/nftSPGUtils";
 
 const main = async () => {
@@ -19,11 +21,34 @@ const main = async () => {
   console.log(`- Transaction Hash: ${registerRootRes.txHash}`);
   console.log(`- IPA ID: ${rootIpId}`);
 
-  // 3. Mint and register Derivative IP Asset
-  const RegisterDerivRes = await mintNftAndRegisterAndDerivative(client, [rootIpId], ["1"]);
+  // Prepare IP asset metadata
+  const { ipIpfsHash, ipHash, nftIpfsHash, nftHash } = await getMetadata();
+  const ipMetadata = {
+    ipMetadataURI: `https://ipfs.io/ipfs/${ipIpfsHash}`,
+    ipMetadataHash: `0x${ipHash}`,
+    nftMetadataURI: `https://ipfs.io/ipfs/${nftIpfsHash}`,
+    nftMetadataHash: `0x${nftHash}`,
+  };
+
+  // 3a. Mint an NFT, register IP Asset, and link as Derivative
+  const res3a = await mintNftAndRegisterAndDerivative(
+    client,
+    "0x518823E6139048fD0e7757580ce4D9FF8f46D419", // SPG ERC-721
+    [rootIpId],
+    ["1"],
+    ipMetadata
+  );
   console.log(`Derivative IP Asset registered`);
-  console.log(`- Transaction Hash: ${RegisterDerivRes.txHash}`);
-  console.log(`- IPA ID: ${RegisterDerivRes.childIpId}`);
+  console.log(`- Transaction Hash: ${res3a.txHash}`);
+  console.log(`- IPA ID: ${res3a.childIpId}`);
+
+  // 3b. Register Pre-minted NFT as IP Asset and Link as Derivative
+  const mintNftRes = await mintNFT(account.address, `https://ipfs.io/ipfs/${nftIpfsHash}`);
+  const tokenId = mintNftRes as number; // NFT tokenId
+  const res3b = await registerDerivativeIp(client, ERC721_CONTRACT_ADDRESS, tokenId, rootIpId, 1, ipMetadata);
+  console.log(`Derivative IP Asset registered`);
+  console.log(`- Transaction Hash: ${res3b.txHash}`);
+  console.log(`- IPA ID: ${res3b.ipId}`);
 };
 
 // Current Account: 0x9fD042a18E90Ce326073fA70F111DC9D798D9a52

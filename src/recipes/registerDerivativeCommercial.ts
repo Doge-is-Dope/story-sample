@@ -1,12 +1,9 @@
 import { Address } from "viem";
 import { getDummyAccount, ACCOUNT_TYPE } from "../utils/account";
 import { getStoryClient } from "../story/client";
-import { registerIp } from "../story/ipAsset";
-import { mintNftAndRegister, mintNftAndRegisterAndDerivative } from "../utils/nftSPGUtils";
-import { getMetadata } from "../utils/metadataUtils";
+import { mintNftAndRegister } from "../utils/nftSPGUtils";
 import { SUSD_ADDRESS } from "../utils/constants";
 import { PIL_TYPE } from "@story-protocol/core-sdk";
-import { erc20Abi } from "../utils/erc20Abi";
 
 const main = async () => {
   const account = getDummyAccount(ACCOUNT_TYPE.WALLET);
