@@ -1,10 +1,12 @@
 import "dotenv/config";
-import { Address } from "viem";
+import { Account, Address } from "viem";
 import { getDummyAccount, ACCOUNT_TYPE } from "./utils/account";
 import { getStoryClient } from "./story/client";
 import { createDummyNftCollection } from "./utils/nftSPGUtils";
-import { mintNFT } from "./utils/nftErc721Utils";
+import { mintNFT } from "./utils/erc721Utils";
 import { getMetadata } from "./utils/metadataUtils";
+import { approve, mintSUSD } from "./utils/erc20Utils";
+import { ROYALTY_POLICY_LAP_ADDRESS, SUSD_ADDRESS } from "./utils/constants";
 
 const main = async () => {
   const account = getDummyAccount(ACCOUNT_TYPE.WALLET);
@@ -32,5 +34,3 @@ const testMetadata = async () => {
   console.log(`IP Metadata: ${ipIpfsHash}, ${ipHash}`);
   console.log(`NFT Metadata: ${nftIpfsHash}, ${nftHash}`);
 };
-
-testMetadata();

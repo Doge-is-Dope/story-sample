@@ -4,8 +4,10 @@ export const STORY_LICENSE_TEMPLATE = "0x8BB1ADE72E21090Fc891e1d4b88AC5E57b27cB3
 // The minting fee token registered in Story Protocol
 export const SUSD_ADDRESS = "0x91f6F05B08c16769d3c85867548615d270C42fC7";
 
-// The Liquid Absolute Percentage
-export const ROYALTY_POLICY_LAP_ADDRESS = "0x4074CEC2B3427f983D14d0C5E962a06B7162Ab92";
+// Core Protocol v1.1: Liquid Absolute Percentage
+export const CORE_1_1_ROYALTY_POLICY_LAP_ADDRESS = "0x61A5c7570f5bDB118D65053Ba60DE87e050E664e";
+// Core Protocol v1.2: Liquid Absolute Percentage
+export const CORE_1_2_ROYALTY_POLICY_LAP_ADDRESS = "0x4074CEC2B3427f983D14d0C5E962a06B7162Ab92";
 
 // Test ERC-721A: Azuki
 export const AZUKI_CONTRACT_ADDRESS = "0x5D0ACd1667995111795161eF029e1202f52D1EA2";

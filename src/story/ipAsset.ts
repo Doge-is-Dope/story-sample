@@ -24,20 +24,22 @@ import { getMetadata } from "../utils/metadataUtils";
 const mintAndRegisterIp = async (
   client: StoryClient,
   nftContractAddress: Address,
-  ipIpfsHash: string,
-  ipHash: string,
-  nftIpfsHash: string,
-  nftHash: string
+  pilType: PIL_TYPE,
+  metadata: Record<string, string>,
+  mintingFee?: string,
+  currency?: Address
 ): Promise<CreateIpAssetWithPilTermsResponse> => {
   const response: CreateIpAssetWithPilTermsResponse = await client.ipAsset.mintAndRegisterIpAssetWithPilTerms({
     nftContract: nftContractAddress as Address,
-    pilType: PIL_TYPE.NON_COMMERCIAL_REMIX,
+    pilType: pilType,
     ipMetadata: {
-      ipMetadataURI: `https://ipfs.io/ipfs/${ipIpfsHash}`,
-      ipMetadataHash: `0x${ipHash}`,
-      nftMetadataURI: `https://ipfs.io/ipfs/${nftIpfsHash}`,
-      nftMetadataHash: `0x${nftHash}`,
+      ipMetadataURI: `https://ipfs.io/ipfs/${metadata.ipIpfsHash}`,
+      ipMetadataHash: `0x${metadata.ipHash}`,
+      nftMetadataURI: `https://ipfs.io/ipfs/${metadata.nftIpfsHash}`,
+      nftMetadataHash: `0x${metadata.nftHash}`,
     },
+    mintingFee: mintingFee,
+    currency: currency,
     txOptions: { waitForTransaction: true },
   });
   return response;

@@ -80,8 +80,13 @@ const hashMetadata = (metadata: Record<string, any>): string => {
   return createHash("sha256").update(JSON.stringify(metadata)).digest("hex");
 };
 
+export const uploadMetadata = async (metadata: Record<string, any>): Promise<string> => {
+  return await upload(metadata);
+};
+
 /**
  * Get the dummy metadata for the NFT collection.
+ * todo: Use hardcoded ipfs hashes for demow
  * @returns The IPFS hashes and hashes of the metadata.
  */
 export const getMetadata = async (): Promise<{
@@ -91,11 +96,13 @@ export const getMetadata = async (): Promise<{
   nftHash: string;
 }> => {
   const ipMetadata = getDummyIpMetadata();
-  const ipIpfsHash = await upload(ipMetadata);
+  // const ipIpfsHash = await upload(ipMetadata);
+  const ipIpfsHash = "bafkreicucsbj55aqgd73oyy7we4g6hcc3tmmjumucrj2zg5qh7ls3o44be";
   const ipHash = hashMetadata(ipMetadata);
 
   const nftMetadata = getDummyNftMetadata();
-  const nftIpfsHash = await upload(nftMetadata);
+  // const nftIpfsHash = await upload(nftMetadata);
+  const nftIpfsHash = "bafkreidkutiimk3kklvjwqnzxeun7tnakimmuutgiy6jgyk2y64he2lfxa";
   const nftHash = hashMetadata(nftMetadata);
   return { ipIpfsHash, ipHash, nftIpfsHash, nftHash };
 };

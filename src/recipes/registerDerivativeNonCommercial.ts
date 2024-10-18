@@ -3,7 +3,7 @@ import { getDummyAccount, ACCOUNT_TYPE } from "../utils/account";
 import { getStoryClient } from "../story/client";
 import { registerIp, registerDerivativeIp } from "../story/ipAsset";
 import { ERC721_CONTRACT_ADDRESS } from "../utils/constants";
-import { mintNFT } from "../utils/nftErc721Utils";
+import { mintNFT } from "../utils/erc721Utils";
 import { getMetadata } from "../utils/metadataUtils";
 
 const main = async () => {
@@ -56,4 +56,15 @@ const main = async () => {
   console.log(`- Derivative IPA ID: ${registerDerivativeRes.ipId}`);
 };
 
+// Current Account: 0x9fD042a18E90Ce326073fA70F111DC9D798D9a52
+// Root NFT minted
+// - Token ID: 105
+// Root IP Asset registered
+// - Transaction Hash: 0xef5021ace2c5681f4c5dfa2be8a410e3de79abb1ca6486b6965218ed51499ff4
+// - IPA ID: 0xd38a9d2f9156ce95bf4AB6D0D08e223a1C9067B9
+// Derivative NFT minted
+// - Token ID: 106
+// Derivative IP Asset registered
+// - Transaction Hash: 0x524f4484430f7ef72cabaf6550161e6e153c62bd8f8f2ed82c9b69b6ad363bf7
+// - Derivative IPA ID: 0x007b1204dD593577258972BC647215bd6E891924
 main();
