@@ -30,7 +30,7 @@ const mintAndRegisterIp = async (
   currency?: Address
 ): Promise<CreateIpAssetWithPilTermsResponse> => {
   const response: CreateIpAssetWithPilTermsResponse = await client.ipAsset.mintAndRegisterIpAssetWithPilTerms({
-    nftContract: nftContractAddress as Address,
+    spgNftContract: nftContractAddress as Address,
     pilType: pilType,
     ipMetadata: {
       ipMetadataURI: `https://ipfs.io/ipfs/${metadata.ipIpfsHash}`,

@@ -14,7 +14,7 @@
     "register-deriv-noncom-simple": "npx ts-node ./src/recipes/registerDerivativeNonCommercialSimple.ts"
   },
   "dependencies": {
-    "@story-protocol/core-sdk": "^1.1.0-stable",
+    "@story-protocol/core-sdk": "^1.2.0-rc.1",
     "dotenv": "^16.4.5",
     "pinata-web3": "^0.5.1",
     "viem": "^2.21.25"

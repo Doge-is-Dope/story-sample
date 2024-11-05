@@ -1,16 +1,16 @@
 import { createPublicClient, defineChain, http } from "viem";
 
 export const storyTestnet = defineChain({
-  id: 1513,
-  name: "Story Testnet",
+  id: 1516,
+  name: "Story Odyssey Testnet",
   nativeCurrency: {
     name: "IP",
     symbol: "IP",
     decimals: 18,
   },
   rpcUrls: {
-    default: { http: ["https://testnet.storyrpc.io"] },
-    public: { http: ["https://testnet.storyrpc.io"] },
+    default: { http: [process.env.RPC_PROVIDER_URL ?? "https://odyssey.storyrpc.io"] },
+    public: { http: [process.env.RPC_PROVIDER_URL ?? "https://odyssey.storyrpc.io"] },
   },
 });
 

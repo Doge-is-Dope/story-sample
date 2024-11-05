@@ -11,7 +11,7 @@ const getStoryClient = (account: Account) => {
   const config: StoryConfig = {
     account: account,
     transport: http(process.env.RPC_PROVIDER_URL),
-    chainId: "iliad",
+    chainId: "odyssey",
   };
   return StoryClient.newClient(config);
 };
